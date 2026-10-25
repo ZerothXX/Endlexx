@@ -1,0 +1,24 @@
+# Infrastructure for the native application; start it with scripts/run.py.
+# Use either these containers OR the WSL services, not both on the same ports.
+services:
+  postgres:
+    image: pgvector/pgvector:pg16
+    environment:
+      POSTGRES_DB: endlexx
+      POSTGRES_USER: endlexx
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in the shell}
+    ports: ["127.0.0.1:5432:5432"]
+    volumes: ["postgres:/var/lib/postgresql/data"]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U endlexx"]
+      interval: 5s
+      retries: 10
+  redis:
+    image: redis:7-alpine
+    command: ["redis-server", "--appendonly", "yes", "--requirepass", "${REDIS_PASSWORD:?Set REDIS_PASSWORD in the shell}"]
+    ports: ["127.0.0.1:6381:6379"]
+    volumes: ["redis:/data"]
+volumes:
+  postgres:
+  redis:
+

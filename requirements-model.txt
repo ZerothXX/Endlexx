@@ -1,0 +1,11 @@
+# Install torch/torchvision/torchaudio from the matching PyTorch CUDA index first.
+torch==2.6.0
+torchvision==0.21.0
+torchaudio==2.6.0
+transformers==4.57.6
+bitsandbytes==0.45.5
+accelerate==1.10.1
+numpy==1.26.4
+pillow==11.1.0
+filelock==3.19.1
+# Research bundle diffusion dependencies are listed in requirements-bundle.txt.
