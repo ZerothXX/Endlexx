@@ -4,7 +4,6 @@
 
 The main entry point for a character creation and visual transfer project, connecting a local agent workbench with Endless-XXX research. Organize conversations, reference profiles, knowledge and images by character, then use a planner to call retrieval, restoration, character transfer and visual consistency tools. Characters organize creative material; the assistant does not impersonate them.
 
-**Version 0.1.0 — research preview for Windows x64 and a single local user.** Intended for engineering demonstrations, research and further development. Transfer image quality and some visual judgments remain below acceptance criteria. This is not a production multi-user service. No project-wide software license has been selected; see [license status](LICENSE.md).
 
 ## Project and research entry points
 
