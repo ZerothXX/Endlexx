@@ -7,6 +7,11 @@ import re
 import zipfile
 from pathlib import Path, PurePosixPath
 
+try:
+    from scripts.check_publication import check_publication
+except ImportError:  # Direct invocation: python scripts/package_source.py
+    from check_publication import check_publication
+
 ROOT = Path(__file__).resolve().parents[1]
 VERSION = "0.1.0"
 PREFIX = f"Endlexx-{VERSION}"
@@ -29,6 +34,15 @@ DOCS = (
     "环境自动配置.md", "模型管理.md", "实现状态.md", "验收报告.md",
     "Agent质量与改进验收.md", "RELEASE.md",
 )
+PUBLICATION_DOCS = (
+    "README.md", "README.en.md", "THIRD_PARTY_NOTICES.md", "docs/RELEASE.md", "docs/GITHUB_UPLOAD.md",
+    "docs/research/overview.md", "docs/research/overview.en.md",
+    "docs/research/results.md", "docs/research/results.en.md",
+)
+RESEARCH_MEDIA = tuple("docs/media/research/" + name for name in (
+    "manifest.json", "cat.png", "cat_result.png", "cup.jpg", "cup_result.png",
+    "human2.png", "human2_result.png", "research-ui.png",
+))
 FORBIDDEN_PARTS = {
     "data", ".git", ".venv", ".modelenv", "node_modules", "__pycache__",
     ".archside", ".pytest_cache", ".ruff_cache", "PPO", "dist", "build",
@@ -67,6 +81,7 @@ def validate_source(name, content):
 def collect_sources(root):
     sources = {}
     names = list(ROOT_FILES) + ["docs/" + name for name in DOCS]
+    names += list(PUBLICATION_DOCS) + list(RESEARCH_MEDIA)
     for directory, suffixes in TREES.items():
         folder = root / directory
         if not folder.is_dir() or folder.is_symlink():
@@ -91,6 +106,7 @@ def collect_sources(root):
             content = sources.get("vendor/endless/" + name)
             if content is None or hashlib.sha256(content).hexdigest() != digest:
                 raise ValueError(f"Vendor snapshot hash mismatch: {name}")
+    check_publication(sources, PUBLICATION_DOCS, RESEARCH_MEDIA)
     return sources
 
 
@@ -111,6 +127,10 @@ def verify_archive(path):
             validate_source(name, content)
             if hashlib.sha256(content).hexdigest() != digest:
                 raise ValueError(f"Source hash mismatch: {name}")
+        check_publication(
+            {name: archive.read(f"{PREFIX}/{name}") for name in manifest["files"]},
+            PUBLICATION_DOCS, RESEARCH_MEDIA,
+        )
     return {"version": VERSION, "files": len(expected), "bytes": path.stat().st_size}
 
 
@@ -119,7 +139,7 @@ def build_archive(root, output):
     manifest = {
         "version": VERSION,
         "kind": "single-user research preview source",
-        "excludes": ["credentials", "databases", "assets", "weights", "runtimes", "legacy PPO research"],
+        "excludes": ["credentials", "databases", "user assets", "weights", "runtimes", "legacy PPO research"],
         "files": {name: hashlib.sha256(content).hexdigest() for name, content in sources.items()},
     }
     sources["SOURCE_MANIFEST.json"] = json.dumps(manifest, ensure_ascii=False, indent=2).encode("utf-8")

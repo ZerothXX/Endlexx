@@ -1,0 +1,71 @@
+{
+  "source_repository": "https://github.com/ZerothXX/Endless-XXX",
+  "source_commit": "6bd78d48c4c99bef0be3ecf4f71e8536349c2acb",
+  "retrieved_on": "2026-10-26",
+  "kind": "published historical research examples; not Endlexx acceptance results",
+  "rights": "Original README describes input pictures as sourced from the internet. Original authors and individual image licenses are not recorded; no new license grant is asserted.",
+  "reproduction": {
+    "seed": null,
+    "checkpoint_sha256": null,
+    "effective_config": null,
+    "note": "Historical images lack a verified complete generation record. Current defaults and published weights must not be assumed to reproduce them."
+  },
+  "files": [
+    {
+      "source_path": "input/cat.png",
+      "file": "cat.png",
+      "git_blob_sha": "a440d0436eaf3cbe259aaf6ac17a5b11ad05c612",
+      "sha256": "f3519fc37f938396750195fdbc90dc26f330ed8340782fd0288049e11b3ee8c4",
+      "bytes": 193892,
+      "source_url": "https://raw.githubusercontent.com/ZerothXX/Endless-XXX/6bd78d48c4c99bef0be3ecf4f71e8536349c2acb/input/cat.png"
+    },
+    {
+      "source_path": "output/result/cat_result.png",
+      "file": "cat_result.png",
+      "git_blob_sha": "6529de6753692d885cb81827770fe3d9f6ff0ea4",
+      "sha256": "786aac2718f60a5b13e356e39f11e66929fbbd3c8f3310a788cd9ab29b3798af",
+      "bytes": 580740,
+      "source_url": "https://raw.githubusercontent.com/ZerothXX/Endless-XXX/6bd78d48c4c99bef0be3ecf4f71e8536349c2acb/output/result/cat_result.png"
+    },
+    {
+      "source_path": "input/cup.jpg",
+      "file": "cup.jpg",
+      "git_blob_sha": "728d273bbf1f7e9cb94c6fafef82718c1d6ed7f7",
+      "sha256": "5ff43311c5d2c36fcc173dea5082caae828092c63bc2e6657abcccf57aab6852",
+      "bytes": 514114,
+      "source_url": "https://raw.githubusercontent.com/ZerothXX/Endless-XXX/6bd78d48c4c99bef0be3ecf4f71e8536349c2acb/input/cup.jpg"
+    },
+    {
+      "source_path": "output/result/cup_result.png",
+      "file": "cup_result.png",
+      "git_blob_sha": "f2f152e68c1ae4c6f18c06abaeeb95054061ab1d",
+      "sha256": "6892b09e8b78bf045b33e21110d7e3f37e34a3e1d04a68ddaaceee5437482181",
+      "bytes": 537802,
+      "source_url": "https://raw.githubusercontent.com/ZerothXX/Endless-XXX/6bd78d48c4c99bef0be3ecf4f71e8536349c2acb/output/result/cup_result.png"
+    },
+    {
+      "source_path": "input/human2.png",
+      "file": "human2.png",
+      "git_blob_sha": "4850de470934026ac50f2e1c89264e22f589c06d",
+      "sha256": "abfcc2bb53bb1dd0867aceb4c6890825f0c3e3929a3132be11b79b1ffa671574",
+      "bytes": 1329926,
+      "source_url": "https://raw.githubusercontent.com/ZerothXX/Endless-XXX/6bd78d48c4c99bef0be3ecf4f71e8536349c2acb/input/human2.png"
+    },
+    {
+      "source_path": "output/result/human2_result.png",
+      "file": "human2_result.png",
+      "git_blob_sha": "26f8e92fdb3454d8084cfcc6c8e301fe14f996b2",
+      "sha256": "23d3b5d197bad5ecc72d5966aa779a6312c42124db61e2cedfb805cef3259ef2",
+      "bytes": 683347,
+      "source_url": "https://raw.githubusercontent.com/ZerothXX/Endless-XXX/6bd78d48c4c99bef0be3ecf4f71e8536349c2acb/output/result/human2_result.png"
+    },
+    {
+      "source_path": "web.png",
+      "file": "research-ui.png",
+      "git_blob_sha": "7b801e1f6613ce6f823f7f9b4b9cb77bd251813f",
+      "sha256": "7408daa8049647e6b8d51d8b8a3cceca9a3377497c8fa44a62eae7419d38660b",
+      "bytes": 20729,
+      "source_url": "https://raw.githubusercontent.com/ZerothXX/Endless-XXX/6bd78d48c4c99bef0be3ecf4f71e8536349c2acb/web.png"
+    }
+  ]
+}

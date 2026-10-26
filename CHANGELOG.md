@@ -2,6 +2,10 @@
 
 ## 0.1.0 — 2026-10-26 (research preview)
 
+- Made Endlexx the bilingual main entry for the workbench and Endless-XXX research.
+- Added bilingual research methods/results, historical gallery provenance and explicit snapshot compatibility boundaries.
+- Included only registered research media in source releases; check publication links and media hashes during packaging.
+- Prepared a separate bilingual README overlay for the public Endless-XXX revision; no research runtime changes.
 - Character-scoped conversations, independent histories, deletion protection and cleanup.
 - LangGraph planning, conditional tools, durable receipts, cancellation and retry.
 - Extractive context compression with original-message retention and validation.

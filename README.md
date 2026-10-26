@@ -2,9 +2,56 @@
 
 [中文](README.md) · [English](README.en.md)
 
-面向角色创作的本机 Agent 工作台。按角色管理对话、设定、知识和图片，通过规划器调用检索、图像修复、角色迁移与视觉一致性检查工具。角色组织资料和资产，助手不扮演角色人格。
+角色创作与视觉迁移项目的主入口，连接本机 Agent 工作台与 Endless-XXX 研究。按角色管理对话、设定、知识和图片，通过规划器调用检索、图像修复、角色迁移与视觉一致性检查工具。角色组织资料和资产，助手不扮演角色人格。
 
 **0.1.0 研究预览版：Windows x64，单人本机使用。** 适合工程展示、研究和继续开发。迁移画质及部分视觉判断尚未达标，不作为成熟的多用户生产服务交付。项目尚未指定软件许可证，见 [许可证状态](LICENSE.md)。
+
+## 项目与研究入口
+
+| 仓库 | 职责 | 从哪里开始 |
+|---|---|---|
+| **[Endlexx](https://github.com/ZerothXX/Endlexx)** | 主项目、Agent 工作台、角色知识与资产、工具编排和应用验收 | 使用工作台：见下方快速开始 |
+| **[Endless-XXX](https://github.com/ZerothXX/Endless-XXX)** | 角色 LoRA 训练、开放域主体视觉迁移、研究实验与研究网页 | 训练和研究：见其双语 README |
+
+两者保留独立仓库。Endlexx 展示研究与应用全貌；训练核心继续在 Endless-XXX 维护，应用随包提供经哈希固定的推理快照。文档关联不等于两个代码版本完全同步。
+
+## 研究效果：角色特征迁移到开放域主体
+
+以下是 Endless-XXX 已公开的**历史输入/输出**，涵盖人物、动物与物品。测试角色为《崩坏：星穹铁道》三月七。它们不是本次 Endlexx 的生成结果，也不是新版本效果承诺。
+
+<table>
+  <tr><th>主体</th><th>输入</th><th>历史研究输出</th></tr>
+  <tr><td>人物</td><td><img src="docs/media/research/human2.png" width="220" alt="人物输入"></td><td><img src="docs/media/research/human2_result.png" width="220" alt="人物角色迁移历史结果"></td></tr>
+  <tr><td>动物</td><td><img src="docs/media/research/cat.png" width="220" alt="猫输入"></td><td><img src="docs/media/research/cat_result.png" width="220" alt="猫的角色迁移历史结果"></td></tr>
+  <tr><td>物品</td><td><img src="docs/media/research/cup.jpg" width="220" alt="杯子输入"></td><td><img src="docs/media/research/cup_result.png" width="220" alt="杯子的角色迁移历史结果"></td></tr>
+</table>
+
+来源固定于研究仓库提交 [`6bd78d4`](https://github.com/ZerothXX/Endless-XXX/tree/6bd78d48c4c99bef0be3ecf4f71e8536349c2acb)，图片按原字节保存；原作者、单图许可和完整生成参数未记录。可见效果与待解决问题、文件 SHA256 和复现要求见 [研究结果与局限](docs/research/results.md) / [素材清单](docs/media/research/manifest.json)。
+
+## 方法与能力边界
+
+```mermaid
+flowchart LR
+  R[参考图与逐图标注] --> T[Endless-XXX: SDXL LoRA 训练]
+  T --> W[角色权重与角色卡]
+  I[输入图] --> V[主体理解与可见区域]
+  I --> C[Canny 结构条件 / 可选分割]
+  W --> G[LoRA + img2img + ControlNet]
+  V --> G
+  C --> G
+  A[Endlexx: Agent / RAG / 对话] --> E[快照推理适配与任务记录]
+  E --> G
+  G --> Q[结果与人工质量验收]
+```
+
+| 能力 | 研究仓库 | Endlexx 当前状态 |
+|---|---|---|
+| 角色 LoRA 微调 | 标准入口及 24GB 参数入口 | 未集成训练 UI/训练任务；在研究仓库执行 |
+| 角色视觉迁移 | 人物、动物、物品差异策略 | 已接入推理快照，画质仍有失败项 |
+| 角色知识、对话、上下文与工具规划 | 非研究训练核心 | 已实现，独立于同级研究目录运行 |
+| 通用文生图 / 任意角色包直接兼容 | 不由展示图证明 | 未作为已交付能力；权重及角色包格式须先验证 |
+
+公开的 [角色 LoRA 权重](https://huggingface.co/ZerothX/endless-xxx-character-37-sdxl-lora) 是研究资源入口；不保证与应用快照直接兼容。实现分工、版本与后续集成标准见 [研究概览](docs/research/overview.md)。
 
 ## 功能
 
@@ -114,7 +161,7 @@ scripts/              安装、推理适配、评测、停止与源码打包
 tests/ / evals/       边界测试与模型评测用例
 migrations/          Alembic 迁移
 vendor/endless/      推理源码及 SHA256 清单，不含权重
-docs/                安装、模型、验收与发布说明
+docs/                安装、模型、验收、研究概览与有来源的展示素材
 ```
 
 MCP 客户端以仓库根目录为工作目录，运行 `.venv/Scripts/python.exe -m endlexx.mcp_server`，提供 `list_characters`、`search_character_knowledge`。仅供可信本机客户端；需显式传入与 API 相同的 `ENDLEXX_DATABASE_URL`，轻量空间为 `sqlite:///./data/endlexx-local.db`。SDK 不自动继承任意 `ENDLEXX_` 变量，首次启动可能初始化数据库表。
@@ -126,7 +173,7 @@ MCP 客户端以仓库根目录为工作目录，运行 `.venv/Scripts/python.ex
 .\.venv\Scripts\python.exe scripts/package_source.py --verify dist/Endlexx-0.1.0-source.zip
 ```
 
-产出 ZIP、SHA256 文件和包内逐文件清单。白名单排除凭据、数据库、图片、权重、缓存、运行时、PPO 训练材料与私人需求笔记。解压后将 `Endlexx-0.1.0/` **目录内的文件**提交到仓库根目录，保留隐藏的 `.github`、`.gitignore`、`.env.example`；ZIP 也可作 Release 附件。
+产出 ZIP、SHA256 文件和包内逐文件清单。白名单仅包含源码、文档和已登记的研究展示图，排除凭据、数据库、用户图片、权重、缓存、运行时、PPO 训练材料与私人需求笔记。打包时同时检查公开文档的本地链接及展示图来源哈希。解压后将 `Endlexx-0.1.0/` **目录内的文件**提交到仓库根目录，保留隐藏的 `.github`、`.gitignore`、`.env.example`；ZIP 也可作 Release 附件。
 
-目前是未指定项目级许可证的源码预览，不标注为 MIT/Apache 开源。研究代码、依赖和模型的来源/条款独立，见 [第三方说明](THIRD_PARTY_NOTICES.md)。[参与开发](CONTRIBUTING.md) · [安全边界](SECURITY.md)。
+两个仓库的上传顺序、文件落点和 GitHub About 建议见 [上传说明](docs/GITHUB_UPLOAD.md)。目前是未指定项目级许可证的源码预览，不标注为 MIT/Apache 开源。研究代码、依赖和模型的来源/条款独立，见 [第三方说明](THIRD_PARTY_NOTICES.md)。[参与开发](CONTRIBUTING.md) · [安全边界](SECURITY.md)。
 
